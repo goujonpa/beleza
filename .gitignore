@@ -1,7 +1,7 @@
 venv/*
 PyQt-*
 sip-*
-
+venv/bin/*
 
 
 # Byte-compiled / optimized / DLL files
