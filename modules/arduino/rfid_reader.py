@@ -5,7 +5,6 @@ import platform
 import requests
 import serial
 import sys
-import time
 
 from dotenv import read_dotenv
 from getenv import env

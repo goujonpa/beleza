@@ -20,7 +20,7 @@ PORT_LINUX = "/dev/ttyUSB0"
 STEPS = ['-', '/', '|', '\\']
 
 
-class TagReader():
+class TagReader(object):
     """class TagReader
 
     Attributes:
@@ -38,7 +38,7 @@ class TagReader():
     def __enter__(self):
         try:
             self.com = serial.Serial(self.port, baudrate=BAUD_RATE, timeout=1)
-            logn('Serial Com Connected\n')
+            reader.logn('Serial Com Connected\n')
         except (serial.SerialException, OSError), e:
             raise serial.SerialException(
                 'Could not open serial port {}: {}'.format(self.port, e)
@@ -46,7 +46,7 @@ class TagReader():
         return self
 
     def __exit__(self, type, value, traceback):
-        logn('Serial Com Disonnected\n')
+        reader.logn('Serial Com Disonnected\n')
         if not self.com.closed:
             self.com.close()
 
@@ -75,19 +75,19 @@ class TagReader():
             )
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # Ex code. shall be removec at long term
     try:
         with TagReader() as tagreader:
             i = 0
             try:
                 while True:
-                    logr('Reading %s' % STEPS[i % 4])
+                    reader.logr('Reading %s' % STEPS[i % 4])
                     number = tagreader.readtag()
                     if number:
-                        send(number)
+                        reader.send(number)
                     time.sleep(0.1)
                     i += 1
             except (serial.SerialException, requests.exceptions.RequestException), e:
-                logn(e)
+                reader.logn(e)
     except KeyboardInterrupt:
         pass
