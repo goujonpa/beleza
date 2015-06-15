@@ -14,12 +14,17 @@ class Luggage(object):
         self._pnr = pnr
         self._last_name = last_name
 
+    @property
+    def manager(self):
+        return self._manager
+
     def send(self):
-        url = "http://bagtrekkin.herokuapp.com/api/v1/checkin/"
-        payload = "{\n  \"pnr\":\"X9JJB5\",\n  \"last_name\":\"rodde\",\n  \"material_number\":\"12345678\"\n}"
+        url = "http://localhost:8000/api/v1/checkin/"
+        payload = "{\n  \"pnr\":\"TESTHJ\",\n  \"last_name\":\"goujon\",\n  \"material_number\":\"12345678\"\n}"
         headers = {
             'content-type': "application/json",
-            'authorization': "ApiKey api730cd04e8f4c05e81459ed8efd6bb326deed7efb"
+            'authorization': "ApiKey 39decbfab0fb1bae3f8136b153c2a401d543c4d3"
             }
 
         response = requests.request("POST", url, data=payload, headers=headers)
+        response.raise_for_status()

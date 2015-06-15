@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtGui, QtCore
-from classes.tagReaderClass import TagReader
+from modules.arduino.read import read as arduino_read
 
 
 class BagtrekkinWidget(QtGui.QWidget):
@@ -15,10 +15,12 @@ class BagtrekkinWidget(QtGui.QWidget):
         self._form = QtGui.QFormLayout()
         self._pnr = QtGui.QLineEdit()
         self._rfid = QtGui.QLineEdit()
+        self._last_name = QtGui.QLineEdit()
         self._scan_button = QtGui.QPushButton('Scan Luggage')
         self._submit_button = QtGui.QPushButton('Send Luggage')
         self._form.addRow('PNR', self._pnr)
         self._form.addRow('RFID', self._rfid)
+        self._form.addRow('Last Name', self._last_name)
         self._main_layout.addLayout(self._form)
         self._main_layout.addWidget(self._scan_button)
         self._main_layout.addWidget(self._submit_button)
@@ -31,23 +33,13 @@ class BagtrekkinWidget(QtGui.QWidget):
 
     @QtCore.pyqtSlot()
     def _scan(self):
-        try:
-            with TagReader() as tagreader:
-                i = 0
-                try:
-                    while True:
-                        reader.logr('Reading %s' % STEPS[i % 4])
-                        number = tagreader.readtag()
-                        if number:
-                            reader.send(number)
-                        time.sleep(0.1)
-                        i += 1
-                except (serial.SerialException, requests.exceptions.RequestException), e:
-                    reader.logn(e)
-        except KeyboardInterrupt:
-            pass
-
+        material_number = arduino_read()
+        self._rfid.setText(str(material_number))
 
     @QtCore.pyqtSlot()
     def _submit(self):
-        pass
+        rfid = self._rfid.text()
+        pnr = self._pnr.text()
+        last_name = self._last_name.text()
+        luggage = Luggage(self.manager, rfid, pnr, last_name)
+        luggage.send()
