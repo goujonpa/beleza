@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtGui, QtCore
+from classes.tagReaderClass import TagReader
 
 
 class BagtrekkinWidget(QtGui.QWidget):
@@ -30,7 +31,22 @@ class BagtrekkinWidget(QtGui.QWidget):
 
     @QtCore.pyqtSlot()
     def _scan(self):
-        pass
+        try:
+            with TagReader() as tagreader:
+                i = 0
+                try:
+                    while True:
+                        reader.logr('Reading %s' % STEPS[i % 4])
+                        number = tagreader.readtag()
+                        if number:
+                            reader.send(number)
+                        time.sleep(0.1)
+                        i += 1
+                except (serial.SerialException, requests.exceptions.RequestException), e:
+                    reader.logn(e)
+        except KeyboardInterrupt:
+            pass
+
 
     @QtCore.pyqtSlot()
     def _submit(self):
