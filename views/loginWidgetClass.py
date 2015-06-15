@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtGui, QtCore
+from classes.userClass import User
 
 
 class LoginWidget(QtGui.QWidget):
     """LoginWidget"""
-    _submit_signal = QtCore.pyqtSignal()
+    submit_signal = QtCore.pyqtSignal()
 
     def __init__(self, manager):
         super(LoginWidget, self).__init__()
@@ -21,14 +22,13 @@ class LoginWidget(QtGui.QWidget):
         self._pwd.setEchoMode(QtGui.QLineEdit.Password)
         self._main_layout.addLayout(self._form)
         self._main_layout.addWidget(self._submit_button)
-        self.connect(
-            self._submit_button,
-            QtCore.SIGNAL('clicked()'),
-            self._submit
-        )
+        self._submit_button.clicked.connect(self._submit)
 
-    @QtCore.pyqtSlot(str, str)
+    @property
+    def manager(self):
+        return self._manager
+
+    @QtCore.pyqtSlot()
     def _submit(self):
-        print(self._login.text())
-        print(self._pwd.text())
-        self._submit_signal.emit()
+        self.manager._user = User(self._login.text(), self._pwd.text())
+        self.submit_signal.emit()

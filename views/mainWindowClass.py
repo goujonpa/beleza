@@ -14,26 +14,21 @@ class MainWindow(QtGui.QMainWindow):
         super(MainWindow, self).__init__()
         self._central_widget = None
         self._manager = Manager()
-        self._widgets = dict()
-        self.initUI()
+        self.setWindowTitle('Bagtrekkin - Checkin')
+        self.loginView()
+        self.showMaximized()
 
     @property
     def manager(self):
         return self._manager
 
-    def initUI(self):
-        self.setWindowTitle('Bagtrekkin - Checkin')
-        self._widgets['login'] = LoginWidget(self.manager)
-        self._widgets['login']._submit_signal.connect(self.bagtrekkinView)
-        self._central_widget = self._widgets['login']
-        self._widgets['bagtrekkin'] = BagtrekkinWidget(self.manager)
-        self.setCentralWidget(self._widgets['login'])
-        self.showMaximized()
-
     @QtCore.pyqtSlot()
     def loginView(self):
-        self.setCentralWidget(self._widgets['login'])
+        self._central_widget = LoginWidget(self.manager)
+        self.setCentralWidget(self._central_widget)
+        self._central_widget.submit_signal.connect(self.bagtrekkinView)
 
     @QtCore.pyqtSlot()
     def bagtrekkinView(self):
-        self.setCentralWidget(self._widgets['bagtrekkin'])
+        self._central_widget = BagtrekkinWidget(self.manager)
+        self.setCentralWidget(self._central_widget)
