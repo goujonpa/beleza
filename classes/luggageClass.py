@@ -19,16 +19,28 @@ class Luggage(object):
     def manager(self):
         return self._manager
 
+    @property
+    def material_number(self):
+        return self._material_number
+
+    @property
+    def pnr(self):
+        return self._pnr
+
+    @property
+    def last_name(self):
+        return self._last_name
+
     def send(self):
         headers = {
             'Content-Type': 'application/json',
-            'Authorization': 'ApiKey goujonpa:39decbfab0fb1bae3f8136b153c2a401d543c4d3'
+            'Authorization': self.manager._user.auth
             }
         url = "http://localhost:8000/api/v1/checkin/"
         data = {
-            'pnr': 'YSVI82',
-            'last_name': 'goujon',
-            'material_number': 'E200 2996 9618 0246 2230 2CD7'
+            'pnr': self.pnr,
+            'last_name': self.last_name,
+            'material_number': self.material_number
         }
 
         response = requests.post(
