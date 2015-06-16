@@ -6,7 +6,10 @@ import json
 
 
 class Luggage(object):
-    """Luggage class"""
+    """Luggage class
+
+    Une classe qui pèse ... entre 23 et 64 kg
+    """
 
     def __init__(self, manager, material_number, pnr, last_name):
         super(Luggage, self).__init__()
