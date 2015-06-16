@@ -2,6 +2,7 @@
 # -*- encoding: utf-8 -*-
 
 import requests
+import json
 
 
 class Luggage(object):
@@ -19,12 +20,20 @@ class Luggage(object):
         return self._manager
 
     def send(self):
-        url = "http://localhost:8000/api/v1/checkin/"
-        payload = "{\n  \"pnr\":\"TESTHJ\",\n  \"last_name\":\"goujon\",\n  \"material_number\":\"12345678\"\n}"
         headers = {
-            'content-type': "application/json",
-            'authorization': "ApiKey 39decbfab0fb1bae3f8136b153c2a401d543c4d3"
+            'Content-Type': 'application/json',
+            'Authorization': 'ApiKey goujonpa:39decbfab0fb1bae3f8136b153c2a401d543c4d3'
             }
+        url = "http://localhost:8000/api/v1/checkin/"
+        data = {
+            'pnr': 'YSVI82',
+            'last_name': 'goujon',
+            'material_number': 'E200 2996 9618 0246 2230 2CD7'
+        }
 
-        response = requests.request("POST", url, data=payload, headers=headers)
+        response = requests.post(
+            url,
+            data=json.dumps(data),
+            headers=headers
+        )
         response.raise_for_status()

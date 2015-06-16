@@ -3,6 +3,7 @@
 
 from PyQt4 import QtGui, QtCore
 from modules.arduino.read import read as arduino_read
+from classes.luggageClass import Luggage
 
 
 class BagtrekkinWidget(QtGui.QWidget):
