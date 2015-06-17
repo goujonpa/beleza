@@ -42,15 +42,23 @@ class LoginWidget(QtGui.QWidget):
         self._info.hide()
 
         # Spacer
-        self._spacer_bottom = QtGui.QSpacerItem(500, 50, QtCore.QSizePolicy.Expanding, QtCore.QSizePolicy.Expanding)
+        self._spacer_bottom = QtGui.QSpacerItem(500, 50, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 
         # Incorporation to main layout
         self._layout.addWidget(self._img_label, 1, 1, 1, 1, QtCore.Qt.AlignCenter)
         self._layout.addWidget(self._info, 2, 1, 1, 1, QtCore.Qt.AlignCenter)
         self._layout.addWidget(self._username, 3, 1, 1, 1, QtCore.Qt.AlignCenter)
         self._layout.addWidget(self._pwd, 4, 1, 1, 1, QtCore.Qt.AlignCenter)
-        self._layout.addWidget(self._submit_button, 5, 1, 1, 1, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
-        self._layout.addWidget(self._spacer_bottom, 6, 1, 1, 1)
+        self._layout.addWidget(self._submit_button, 5, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addItem(self._spacer_bottom, 6, 1, 1, 1)
+
+        # Setting minimal row height
+        self._layout.setRowMinimumHeight(0, 10)
+        self._layout.setRowMinimumHeight(1, 20)
+        self._layout.setRowMinimumHeight(2, 20)
+        self._layout.setRowMinimumHeight(3, 10)
+        self._layout.setRowMinimumHeight(4, 10)
+        self._layout.setRowMinimumHeight(5, 50)
 
         # SIGNALS SLOTS Connection
         self._submit_button.clicked.connect(self._submit)
@@ -84,8 +92,21 @@ class LoginWidget(QtGui.QWidget):
 
     def _process_stylesheet(self):
         stylesheet = QtCore.QString("""
-            *
+            QPushButton
             {
+                width: 200px;
+                height: 30px;
+                background-color: rgb(13, 173, 175);
+                border: 1px solid white;
+                color: white;
+            }
+            QLineEdit
+            {
+                width: 195px;
+                height: 30px;
+                font-size: 14px;
+                padding: 5px, 0px;
+                padding-left: 5px;
             }
         """)
         self.setStyleSheet(stylesheet)
