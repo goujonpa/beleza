@@ -4,6 +4,7 @@
 from PyQt4 import QtGui, QtCore
 from modules.arduino.read import read as arduino_read
 from classes.luggageClass import Luggage
+from modules.widgets.alter_color import alter_border_color
 
 
 class BagtrekkinWidget(QtGui.QWidget):
@@ -74,8 +75,15 @@ class BagtrekkinWidget(QtGui.QWidget):
 
     @QtCore.pyqtSlot()
     def _scan(self):
-        material_number = arduino_read()
-        self._rfid.setText(unicode(material_number))
+        try:
+            material_number = arduino_read()
+            self._rfid.setText(unicode(material_number))
+            alter_border_color(self._rfid, 'green')
+            self._info.hide()
+        except:
+            alter_border_color(self._rfid, 'red')
+            self._info.setText('Scan error: Something went wrong, please try again.')
+            self._info.show()
 
     @property
     def pnr(self):
