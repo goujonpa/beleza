@@ -54,10 +54,7 @@ class LoginWidget(QtGui.QWidget):
 
         # Setting minimal row height
         self._layout.setRowMinimumHeight(0, 10)
-        self._layout.setRowMinimumHeight(1, 20)
         self._layout.setRowMinimumHeight(2, 20)
-        self._layout.setRowMinimumHeight(3, 10)
-        self._layout.setRowMinimumHeight(4, 10)
         self._layout.setRowMinimumHeight(5, 50)
 
         # SIGNALS SLOTS Connection

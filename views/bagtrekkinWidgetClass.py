@@ -37,24 +37,27 @@ class BagtrekkinWidget(QtGui.QWidget):
         # Submit
         self._submit_button = QtGui.QPushButton('Send Luggage')
 
+        # Info
+        self._info = QtGui.QLabel()
+        self._info.hide()
+
         # Spacer
         self._spacer_bottom = QtGui.QSpacerItem(500, 50, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 
         # Incorporation to main layout
-        self._layout.addWidget(self._pnr, 1, 1, 1, 1, QtCore.Qt.AlignCenter)
-        self._layout.addWidget(self._last_name, 2, 1, 1, 1, QtCore.Qt.AlignCenter)
-        self._layout.addWidget(self._rfid, 3, 1, 1, 1, QtCore.Qt.AlignCenter)
-        self._layout.addWidget(self._scan_button, 4, 1, 1, 1, QtCore.Qt.AlignCenter)
-        self._layout.addWidget(self._submit_button, 5, 1, 1, 1, QtCore.Qt.AlignCenter)
-        self._layout.addItem(self._spacer_bottom, 6, 1, 1, 1)
+        self._layout.addWidget(self._info, 1, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._pnr, 2, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._last_name, 3, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._rfid, 4, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._scan_button, 5, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._submit_button, 6, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addItem(self._spacer_bottom, 7, 1, 1, 1)
 
         # Setting minimal row height
         self._layout.setRowMinimumHeight(0, 10)
         self._layout.setRowMinimumHeight(1, 20)
-        self._layout.setRowMinimumHeight(2, 20)
-        self._layout.setRowMinimumHeight(3, 10)
-        self._layout.setRowMinimumHeight(4, 50)
-        self._layout.setRowMinimumHeight(5, 30)
+        self._layout.setRowMinimumHeight(5, 40)
+        self._layout.setRowMinimumHeight(6, 40)
 
         # SIGNALS SLOTS  connection
         self._scan_button.clicked.connect(self._scan)
