@@ -11,27 +11,50 @@ class LoginWidget(QtGui.QWidget):
 
     def __init__(self, manager):
         super(LoginWidget, self).__init__()
+
+        # Manager
         self._manager = manager
-        self._main_layout = QtGui.QGridLayout(self)
-        self.setLayout(self._main_layout)
-        self._img = QtGui.QLabel()
-        self._bt_logo = QtGui.QPixmap("bt_logo.png")
-        self._form = QtGui.QFormLayout()
+
+        # Main Layout
+        self._layout = QtGui.QGridLayout()
+        self.setLayout(self._layout)
+
+        # Image
+        self._img = QtGui.QPixmap('views/img/bt_logo.png')
+        self._img = self._img.scaledToHeight(200, QtCore.Qt.SmoothTransformation)
+        self._img_label = QtGui.QLabel()
+        self._img_label.setPixmap(self._img)
+
+        # Username
         self._username = QtGui.QLineEdit()
+        self._username.setPlaceholderText('Username')
+
+        # Password
         self._pwd = QtGui.QLineEdit()
+        self._pwd.setPlaceholderText('Password')
+        self._pwd.setEchoMode(QtGui.QLineEdit.Password)
+
+        # Submit
         self._submit_button = QtGui.QPushButton('Login')
+
+        # Info
         self._info = QtGui.QLabel()
         self._info.hide()
-        self._form.addRow('Username', self._username)
-        self._form.addRow('Password', self._pwd)
-        self._pwd.setEchoMode(QtGui.QLineEdit.Password)
-        self._img.setPixmap(self._bt_logo)
-        self._main_layout.addWidget(self._img, 1, 1, 1, 1)
-        self._main_layout.addLayout(self._form, 2, 1, 1, 1)
-        self._main_layout.addWidget(self._submit_button, 3, 1, 1, 1)
-        self._main_layout.addWidget(self._info, 4, 1, 1, 1)
+
+        # Incorporation to main layout
+        self._layout.addWidget(self._img_label, 1, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._info, 2, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._username, 3, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._pwd, 4, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._submit_button, 5, 1, 1, 1, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
+
+        # SIGNALS SLOTS Connection
         self._submit_button.clicked.connect(self._submit)
+
+        # STYLESHEET
         self._process_stylesheet()
+
+        self.show()
 
     @property
     def manager(self):
