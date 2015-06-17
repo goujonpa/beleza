@@ -11,22 +11,59 @@ class BagtrekkinWidget(QtGui.QWidget):
 
     def __init__(self, manager):
         super(BagtrekkinWidget, self).__init__()
-        self._main_layout = QtGui.QVBoxLayout(self)
+
+        # Manager
         self._manager = manager
-        self._form = QtGui.QFormLayout()
+
+        # Main Layout
+        self._layout = QtGui.QGridLayout(self)
+
+        # PNR
         self._pnr = QtGui.QLineEdit()
-        self._rfid = QtGui.QLineEdit()
+        self._pnr.setPlaceholderText("Passenger's PNR")
+
+        # Last name
         self._last_name = QtGui.QLineEdit()
+        self._last_name.setPlaceholderText("Passenger's Last Name")
+
+        # RFID
+        self._rfid = QtGui.QLineEdit()
+        self._rfid.setPlaceholderText("Luggage's RFID (autofill)")
+        self._rfid.setReadOnly(True)
+
+        # Scan
         self._scan_button = QtGui.QPushButton('Scan Luggage')
+
+        # Submit
         self._submit_button = QtGui.QPushButton('Send Luggage')
-        self._form.addRow('PNR', self._pnr)
-        self._form.addRow('Last Name', self._last_name)
-        self._form.addRow('RFID', self._rfid)
-        self._main_layout.addLayout(self._form)
-        self._main_layout.addWidget(self._scan_button)
-        self._main_layout.addWidget(self._submit_button)
+
+        # Spacer
+        self._spacer_bottom = QtGui.QSpacerItem(500, 50, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+
+        # Incorporation to main layout
+        self._layout.addWidget(self._pnr, 1, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._last_name, 2, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._rfid, 3, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._scan_button, 4, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addWidget(self._submit_button, 5, 1, 1, 1, QtCore.Qt.AlignCenter)
+        self._layout.addItem(self._spacer_bottom, 6, 1, 1, 1)
+
+        # Setting minimal row height
+        self._layout.setRowMinimumHeight(0, 10)
+        self._layout.setRowMinimumHeight(1, 20)
+        self._layout.setRowMinimumHeight(2, 20)
+        self._layout.setRowMinimumHeight(3, 10)
+        self._layout.setRowMinimumHeight(4, 50)
+        self._layout.setRowMinimumHeight(5, 30)
+
+        # SIGNALS SLOTS  connection
         self._scan_button.clicked.connect(self._scan)
         self._submit_button.clicked.connect(self._submit)
+
+        # STYLESHEET
+        self._process_stylesheet()
+
+        self.show()
 
     @property
     def manager(self):
@@ -56,3 +93,24 @@ class BagtrekkinWidget(QtGui.QWidget):
         last_name = self.last_name
         luggage = Luggage(self.manager, rfid, pnr, last_name)
         luggage.send()
+
+    def _process_stylesheet(self):
+        stylesheet = QtCore.QString("""
+            QPushButton
+            {
+                width: 200px;
+                height: 30px;
+                background-color: rgb(13, 173, 175);
+                border: 1px solid white;
+                color: white;
+            }
+            QLineEdit
+            {
+                width: 195px;
+                height: 30px;
+                font-size: 14px;
+                padding: 5px, 0px;
+                padding-left: 5px;
+            }
+        """)
+        self.setStyleSheet(stylesheet)

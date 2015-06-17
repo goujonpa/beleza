@@ -102,7 +102,7 @@ class LoginWidget(QtGui.QWidget):
             }
             QLineEdit
             {
-                width: 195px;
+                width: 200px;
                 height: 30px;
                 font-size: 14px;
                 padding: 5px, 0px;
