@@ -41,12 +41,16 @@ class LoginWidget(QtGui.QWidget):
         self._info = QtGui.QLabel()
         self._info.hide()
 
+        # Spacer
+        self._spacer_bottom = QtGui.QSpacerItem(500, 50, QtCore.QSizePolicy.Expanding, QtCore.QSizePolicy.Expanding)
+
         # Incorporation to main layout
         self._layout.addWidget(self._img_label, 1, 1, 1, 1, QtCore.Qt.AlignCenter)
         self._layout.addWidget(self._info, 2, 1, 1, 1, QtCore.Qt.AlignCenter)
         self._layout.addWidget(self._username, 3, 1, 1, 1, QtCore.Qt.AlignCenter)
         self._layout.addWidget(self._pwd, 4, 1, 1, 1, QtCore.Qt.AlignCenter)
         self._layout.addWidget(self._submit_button, 5, 1, 1, 1, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
+        self._layout.addWidget(self._spacer_bottom, 6, 1, 1, 1)
 
         # SIGNALS SLOTS Connection
         self._submit_button.clicked.connect(self._submit)
