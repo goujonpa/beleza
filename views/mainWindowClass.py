@@ -16,6 +16,7 @@ class MainWindow(QtGui.QMainWindow):
         self._manager = Manager()
         self.setWindowTitle('Bagtrekkin - Checkin')
         self.loginView()
+        self._process_stylesheet()
         self.showMaximized()
 
     @property
@@ -32,3 +33,12 @@ class MainWindow(QtGui.QMainWindow):
     def bagtrekkinView(self):
         self._central_widget = BagtrekkinWidget(self.manager)
         self.setCentralWidget(self._central_widget)
+
+    def _process_stylesheet(self):
+        stylesheet = QtCore.QString("""
+            QMainWindow
+            {
+                background-color: white;
+            }
+        """)
+        self.setStyleSheet(stylesheet)

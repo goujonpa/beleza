@@ -9,6 +9,7 @@ from views.mainWindowClass import MainWindow
 def main():
     app = QtGui.QApplication(sys.argv)
     w = MainWindow()
+    w.show()
     sys.exit(app.exec_())
 
 
