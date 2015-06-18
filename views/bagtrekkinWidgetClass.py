@@ -80,7 +80,7 @@ class BagtrekkinWidget(QtGui.QWidget):
             self._rfid.setText(unicode(material_number))
             alter_border_color(self._rfid, 'green')
             self._info.hide()
-        except:
+        except Exception:
             alter_border_color(self._rfid, 'red')
             self._info.setText('Scan error: Something went wrong, please try again.')
             self._info.show()
@@ -103,7 +103,17 @@ class BagtrekkinWidget(QtGui.QWidget):
         pnr = self.pnr
         last_name = self.last_name
         luggage = Luggage(self.manager, rfid, pnr, last_name)
-        luggage.send()
+        try:
+            luggage.send()
+            alter_border_color(self._pnr, 'green')
+            alter_border_color(self._last_name, 'green')
+            self._info.hide()
+            # add connect
+        except Exception:
+            alter_border_color(self._pnr, 'red')
+            alter_border_color(self._last_name, 'red')
+            self._info.setText('Submit error: Something went wrong, please try again.')
+            self._info.show()
 
     def _process_stylesheet(self):
         stylesheet = QtCore.QString("""
@@ -125,3 +135,9 @@ class BagtrekkinWidget(QtGui.QWidget):
             }
         """)
         self.setStyleSheet(stylesheet)
+
+    def reset_view(self):
+        self._pnr.setStyleSheet('')
+        self._last_name.setStyleSheet('')
+        self._rfid.setStyleSheet('')
+        self._info.hide()
