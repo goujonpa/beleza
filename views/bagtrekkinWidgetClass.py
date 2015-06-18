@@ -85,7 +85,7 @@ class BagtrekkinWidget(QtGui.QWidget):
     @QtCore.pyqtSlot()
     def _scan(self):
         try:
-            material_number = 'ZBBCA'
+            material_number = 'ZBBCA1Z'
             #material_number = arduino_read()
             self._rfid.setText(unicode(material_number))
             alter_border_color(self._rfid, 'green')

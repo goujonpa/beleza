@@ -12,31 +12,57 @@ class MainWindow(QtGui.QMainWindow):
 
     def __init__(self):
         super(MainWindow, self).__init__()
-        self._central_widget = None
+        # Manager
         self._manager = Manager()
+
+        # Central Widget
+        self._central_widget = None
+        self._loginView()
+
+        # Menubar
+        self._menubar = self.menuBar()
+        self._user_menu = self._menubar.addMenu('User')
+        self._logout_action = QtGui.QAction('Logout', self)
+        self._user_menu.addAction(self._logout_action)
+
+        # Window Title
         self.setWindowTitle('Bagtrekkin - Checkin')
-        self.loginView()
+
+        # SIGNALS SLOTS CONNECTIONS
+        QtCore.QObject.connect(
+            self._logout_action,
+            QtCore.SIGNAL('triggered()'),
+            self._logout
+        )
+
+        # STYLESHEET
         self._process_stylesheet()
-        self.showMaximized()
+
+        self.show()
 
     @property
     def manager(self):
         return self._manager
 
     @QtCore.pyqtSlot()
-    def loginView(self):
+    def _loginView(self):
         self._central_widget = LoginWidget(self.manager)
         self.setCentralWidget(self._central_widget)
         QtCore.QObject.connect(
             self._central_widget,
             QtCore.SIGNAL('submit_signal()'),
-            self.bagtrekkinView
+            self._bagtrekkinView
         )
 
     @QtCore.pyqtSlot()
-    def bagtrekkinView(self):
+    def _bagtrekkinView(self):
         self._central_widget = BagtrekkinWidget(self.manager)
         self.setCentralWidget(self._central_widget)
+
+    @QtCore.pyqtSlot()
+    def _logout(self):
+        self._manager._user = None
+        self._loginView()
 
     def _process_stylesheet(self):
         stylesheet = QtCore.QString("""
