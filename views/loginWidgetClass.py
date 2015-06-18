@@ -58,8 +58,11 @@ class LoginWidget(QtGui.QWidget):
         self._layout.setRowMinimumHeight(5, 50)
 
         # SIGNALS SLOTS Connection
-        self._submit_button.clicked.connect(self._submit)
-
+        QtCore.QObject.connect(
+            self._submit_button,
+            QtCore.SIGNAL('clicked()'),
+            self._submit
+        )
         # STYLESHEET
         self._process_stylesheet()
 

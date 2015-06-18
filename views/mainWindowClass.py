@@ -27,7 +27,11 @@ class MainWindow(QtGui.QMainWindow):
     def loginView(self):
         self._central_widget = LoginWidget(self.manager)
         self.setCentralWidget(self._central_widget)
-        self._central_widget.submit_signal.connect(self.bagtrekkinView)
+        QtCore.QObject.connect(
+            self._central_widget,
+            QtCore.SIGNAL('submit_signal()'),
+            self.bagtrekkinView
+        )
 
     @QtCore.pyqtSlot()
     def bagtrekkinView(self):

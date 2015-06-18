@@ -5,6 +5,7 @@ from PyQt4 import QtGui, QtCore
 from modules.arduino.read import read as arduino_read
 from classes.luggageClass import Luggage
 from modules.widgets.alter_color import alter_border_color
+from requests.exceptions import RequestException
 
 
 class BagtrekkinWidget(QtGui.QWidget):
@@ -61,8 +62,16 @@ class BagtrekkinWidget(QtGui.QWidget):
         self._layout.setRowMinimumHeight(6, 40)
 
         # SIGNALS SLOTS  connection
-        self._scan_button.clicked.connect(self._scan)
-        self._submit_button.clicked.connect(self._submit)
+        QtCore.QObject.connect(
+            self._scan_button,
+            QtCore.SIGNAL('clicked()'),
+            self._scan
+        )
+        QtCore.QObject.connect(
+            self._submit_button,
+            QtCore.SIGNAL('clicked()'),
+            self._submit
+        )
 
         # STYLESHEET
         self._process_stylesheet()
@@ -76,13 +85,14 @@ class BagtrekkinWidget(QtGui.QWidget):
     @QtCore.pyqtSlot()
     def _scan(self):
         try:
-            material_number = arduino_read()
+            material_number = 'ZBBCA'
+            #material_number = arduino_read()
             self._rfid.setText(unicode(material_number))
             alter_border_color(self._rfid, 'green')
             self._info.hide()
         except Exception:
             alter_border_color(self._rfid, 'red')
-            self._info.setText('Scan error: Something went wrong, please try again.')
+            self._info.setText(unicode('Scan error: Something went wrong, please try again.'))
             self._info.show()
 
     @property
@@ -99,20 +109,40 @@ class BagtrekkinWidget(QtGui.QWidget):
 
     @QtCore.pyqtSlot()
     def _submit(self):
+        self._info.setText(unicode('Submitting Luggage...'))
+        self._info.show()
         rfid = self.rfid
         pnr = self.pnr
         last_name = self.last_name
         luggage = Luggage(self.manager, rfid, pnr, last_name)
         try:
             luggage.send()
+
+            # View
             alter_border_color(self._pnr, 'green')
             alter_border_color(self._last_name, 'green')
-            self._info.hide()
-            # add connect
-        except Exception:
+            self._info.setText(unicode('Success : Luggage submitted !'))
+
+            # SIGNALS SLOTS CONNECTION
+            QtCore.QObject.connect(
+                self._pnr,
+                QtCore.SIGNAL('textEdited(QString)'),
+                self._reset_view
+            )
+            QtCore.QObject.connect(
+                self._last_name,
+                QtCore.SIGNAL('textEdited(QString)'),
+                self._reset_view
+            )
+            QtCore.QObject.connect(
+                self._rfid,
+                QtCore.SIGNAL('textEdited(QString)'),
+                self._reset_view
+            )
+        except RequestException:
             alter_border_color(self._pnr, 'red')
             alter_border_color(self._last_name, 'red')
-            self._info.setText('Submit error: Something went wrong, please try again.')
+            self._info.setText(unicode('Submit error: Something went wrong, please try again.'))
             self._info.show()
 
     def _process_stylesheet(self):
@@ -136,8 +166,24 @@ class BagtrekkinWidget(QtGui.QWidget):
         """)
         self.setStyleSheet(stylesheet)
 
-    def reset_view(self):
+    @QtCore.pyqtSlot(str)
+    def _reset_view(self):
+        QtCore.QObject.disconnect(
+            self._pnr,
+            QtCore.SIGNAL('textEdited(QString)'),
+            self._reset_view
+        )
+        QtCore.QObject.disconnect(
+            self._last_name,
+            QtCore.SIGNAL('textEdited(QString)'),
+            self._reset_view
+        )
+        QtCore.QObject.disconnect(
+            self._rfid,
+            QtCore.SIGNAL('textEdited(QString)'),
+            self._reset_view
+        )
+        self._info.hide()
         self._pnr.setStyleSheet('')
         self._last_name.setStyleSheet('')
         self._rfid.setStyleSheet('')
-        self._info.hide()
