@@ -3,6 +3,7 @@
 
 from PyQt4 import QtGui, QtCore
 from classes.userClass import User
+import views.img.img_qr
 
 
 class LoginWidget(QtGui.QWidget):
@@ -20,7 +21,7 @@ class LoginWidget(QtGui.QWidget):
         self.setLayout(self._layout)
 
         # Image
-        self._img = QtGui.QPixmap('views/img/bt_logo.png')
+        self._img = QtGui.QPixmap(':/bt_logo.png')
         self._img = self._img.scaledToHeight(200, QtCore.Qt.SmoothTransformation)
         self._img_label = QtGui.QLabel()
         self._img_label.setPixmap(self._img)

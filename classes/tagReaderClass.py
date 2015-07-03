@@ -8,6 +8,7 @@ import os
 import requests
 import time
 import sys
+import subprocess
 
 PLATFORM_DARWIN = 'Darwin'
 PLATFORM_LINUX = 'Linux'
@@ -73,6 +74,20 @@ class TagReader(object):
             raise serial.SerialException(
                 'Could not readline from serial port {}: {}'.format(self.port, e)
             )
+        # pwd = os.getcwd()
+        # sp = subprocess.Popen(
+        #     ['java', pwd + '/modules/java/jar/AlienRFID.jar']
+        #     stdout=subprocess.PIPE,
+        #     stderr=subprocess.PIPE
+        # )
+        # out, err = sp.communicate()
+        # if out:
+        #     if out[:5] == "TAG: ":
+        #         return out[5:]
+        #     else:
+        #         raise serial.SerialException('No TAG readen: ' + out[5:])
+        # if err:
+        #     raise serial.SerialException('Reading error: ' + err)
 
     def logr(self, message):
         sys.stdout.flush()

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource>
+        <file alias="bt_logo.png">bt_logo.png</file>
+    </qresource>
+</RCC>
