@@ -58,6 +58,14 @@ $ make install
 
 You can check [`PyQt4 documentation`](http://pyqt.sourceforge.net/Docs/PyQt4/) to get more infos.
 
+
+#### Install Python packages
+
+```bash
+$ pip install -r requirements.txt
+```
+
+
 #### You're done !
 
 You can check everything's well by trying to import some Qt modules :
