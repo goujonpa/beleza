@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="jar/AlienRFID.jar"/>
+	<classpathentry kind="lib" path="/Users/hugo/Workspaces/python/beleza/modules/java/lib/AlienRFID.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

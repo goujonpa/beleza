@@ -81,10 +81,10 @@ class TagReader(object):
         except Alarm:
             raise serial.SerialException('Java call is taking too long!')
         if out:
-            if out[:5] == "TAG: ":
-                return out[5:]
+            if out[61:66] == "TAG: ":
+                return out[66:-1]
             else:
-                raise serial.SerialException('No TAG readen: ' + out[5:])
+                raise serial.SerialException('No TAG readen: ' + out)
         if err:
             raise serial.SerialException('Reading error: ' + err)
 
@@ -106,7 +106,7 @@ class TagReader(object):
             return None
         except serial.SerialException, e:
             raise serial.SerialException(
-                'Could not readline from serial port {}: {}'.format(self.port, e)
+                'Could not readline from serial port'
             )
 
     def logr(self, message):
