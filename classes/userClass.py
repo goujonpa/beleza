@@ -3,7 +3,6 @@
 
 from PyQt4 import QtCore
 import requests
-import json
 import base64
 
 
@@ -28,7 +27,7 @@ class User(QtCore.QObject):
             'Content-Type': "application/json",
             'Authorization': self.auth
         }
-        url = "http://localhost:8000/api/v1/employee/"
+        url = "http://bagtrekkin.herokuapp.com/api/v1/employee/"
         response = requests.get(
             url,
             headers=headers

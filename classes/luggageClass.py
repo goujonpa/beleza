@@ -39,7 +39,7 @@ class Luggage(object):
             'Content-Type': 'application/json',
             'Authorization': self.manager._user.auth
             }
-        url = "http://localhost:8000/api/v1/checkin/"
+        url = "http://bagtrekkin.herokuapp.com/api/v1/checkin/"
         data = {
             'pnr': self.pnr,
             'last_name': self.last_name,
