@@ -1,4 +1,5 @@
 # beleza
+
 PyQt4 application for the bagtrekkin school project
 
 ## Getting started
